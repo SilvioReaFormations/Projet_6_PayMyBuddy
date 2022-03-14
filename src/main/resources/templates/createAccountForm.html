@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>INDEX</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" 
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
+	crossorigin="anonymous">
+</head>
+<body>
+	<div class="container">
+	
+		<div th:if="${param.success}">
+			<div class="alert alert-info mt-2">REGISTRATION COMPLETE</div>
+		</div>
+		
+		<h1>CREATE ACCOUNT</h1>
+		
+		<hr>
+		
+		<form action="#" th:action="@{/registration}" th:object="${newUser}" method="POST">
+			<input class="form-control mb-4" th:field="*{firstName}"
+						placeholder="Your First Name" required autofocus="autofocus" >
+							
+			<input class="form-control mb-4" th:field="*{lastName}"
+						placeholder="Your Last Name" required autofocus="autofocus" >
+							
+			<input class="form-control mb-4" th:field="*{email}"
+						placeholder="Your Email" required autofocus="autofocus" >
+							
+			<input class="form-control mb-4" th:field="*{password}"
+						placeholder="Your Password" required autofocus="autofocus" >
+							
+			<button type="submit" class="btn btn-primary mt-4">Create my account</button>
+		
+		</form>
+		
+		<a>Already Register?</a>
+		<a href="/" th:ref="@{/login}">Clic here</a>
+	
+	</div>
+	
+
+</body>
+
+</html>
