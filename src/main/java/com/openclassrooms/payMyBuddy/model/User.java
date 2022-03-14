@@ -1,10 +1,13 @@
 package com.openclassrooms.payMyBuddy.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.tuto.reglog.model.Role;
 
 
 @Entity
@@ -35,6 +40,16 @@ public class User
 	
 	private float account;
 	
+	@ManyToMany(
+			fetch = FetchType.EAGER,
+			cascade = CascadeType.ALL)
+	@JoinTable(
+			name="users_roles",
+			joinColumns=@JoinColumn(name="user_id", referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn(name="role_id", referencedColumnName = "id")
+			)
+	private Collection<Role> roles;
+	
 	@ManyToMany
 	@JoinTable(
 			name = "contact",
@@ -47,13 +62,15 @@ public class User
 	
 	// CONSTRUCTORS //
 	
-	public User(String firstName, String lastName, String email, String password)
+	public User(String firstName, String lastName, String email, String password,
+			Collection<com.openclassrooms.payMyBuddy.model.Role> roles)
 	{
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
+		this.roles = roles;
 	}
 	
 	
@@ -67,10 +84,42 @@ public class User
 	
 	// GETTER / SETTER
 
+	
+
+
+
 	public int getId()
 	{
 		return id;
 	}
+
+	public String getEmail()
+	{
+		return email;
+	}
+
+
+
+	public void setEmail(String email)
+	{
+		this.email = email;
+	}
+
+
+
+	public Collection<Role> getRoles()
+	{
+		return roles;
+	}
+
+
+
+	public void setRoles(Collection<Role> roles)
+	{
+		this.roles = roles;
+	}
+
+
 
 	public void setId(int id)
 	{
@@ -97,15 +146,6 @@ public class User
 		this.lastName = lastName;
 	}
 
-	public String getMail()
-	{
-		return email;
-	}
-
-	public void setMail(String mail)
-	{
-		this.email = mail;
-	}
 
 	public String getPassword()
 	{
