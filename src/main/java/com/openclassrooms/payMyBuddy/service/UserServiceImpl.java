@@ -1,19 +1,19 @@
 package com.openclassrooms.payMyBuddy.service;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.openclassrooms.payMyBuddy.model.Role;
+import com.openclassrooms.payMyBuddy.model.Roles;
 import com.openclassrooms.payMyBuddy.model.User;
 import com.openclassrooms.payMyBuddy.repository.UserRepository;
 import com.openclassrooms.payMyBuddy.repository.dto.UserDTO;
@@ -22,9 +22,12 @@ import com.openclassrooms.payMyBuddy.repository.dto.UserDTO;
 public class UserServiceImpl implements UserService
 {
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
+
+// Lazy pour une injection parraisseuse afin d'éviter la boucle d'injection.
+	@Lazy
 	@Autowired
-	BCryptPasswordEncoder passwordEncoder;
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Override
 	public User save(UserDTO userDTO)
@@ -33,7 +36,7 @@ public class UserServiceImpl implements UserService
 				userDTO.getLastName(),
 				userDTO.getEmail(), 
 				passwordEncoder.encode(userDTO.getPassword()),
-				Arrays.asList(new Role("ROLE_USER"))
+				Roles.USER
 				);
 		return userRepository.save(newUser);
 	}
@@ -47,14 +50,18 @@ public class UserServiceImpl implements UserService
 		{
 			throw new UsernameNotFoundException("Invalid username or invalid Password");
 		}
-		
+// On a besoin de la classe User de Spring security et non celle de l'Entité donc il faut 
+//	lui indiquer que c'est celle la qu'on veut en indiquant le lien complet avec le package 
 		return new org.springframework.security.core.userdetails.User
-				(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
+				(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRole()));
 	}
 	
-	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles)
+// ? pour dire que la collection correspond à toutes les classes filles de GrantedAuthority
+	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Roles role)
 	{
-		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+		List<SimpleGrantedAuthority> authorithies = new ArrayList<>();
+	    authorithies.add(new SimpleGrantedAuthority(role.name()));
+		return authorithies;
 		
 	}
 	

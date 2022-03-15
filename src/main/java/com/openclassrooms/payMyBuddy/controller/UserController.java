@@ -17,21 +17,26 @@ import com.openclassrooms.payMyBuddy.service.UserService;
 import com.openclassrooms.payMyBuddy.service.UserServiceImpl;
 
 @Controller
-@RequestMapping("/registration")
 public class UserController
 {
 	@Autowired
 	private UserService userService;
 	
 	
-	@GetMapping
+	@GetMapping("/registration")
 	public String showCreateAccountForm(Model model)
 	{
 		model.addAttribute("newUser", new UserDTO());
 		return "createAccountForm";
 	}
 	
-	@PostMapping
+	@GetMapping("/login")
+	public String showLoginForm()
+	{
+		return "login";
+	}
+	
+	@PostMapping("/registration")
 	public String registerUserAccount(UserDTO userDTO)
 	{
 		userService.save(userDTO);
@@ -39,6 +44,7 @@ public class UserController
 	}
 	
 
+	
 
 
 }

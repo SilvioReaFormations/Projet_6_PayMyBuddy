@@ -8,5 +8,6 @@ import com.openclassrooms.payMyBuddy.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>
 {
+	// IA de SPRING S2CURITY defini elle meme le query avec le nom de la méthode
 	User findByEmail(String email);
 }

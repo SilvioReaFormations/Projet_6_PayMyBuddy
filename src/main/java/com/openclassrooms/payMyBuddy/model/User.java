@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,8 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
-import com.tuto.reglog.model.Role;
 
 
 @Entity
@@ -34,21 +36,16 @@ public class User
 	@Column(name = "last_name")
 	private String lastName;
 	
+	@Column(unique=true)
 	private String email;
 	
 	private String password;
 	
 	private float account;
 	
-	@ManyToMany(
-			fetch = FetchType.EAGER,
-			cascade = CascadeType.ALL)
-	@JoinTable(
-			name="users_roles",
-			joinColumns=@JoinColumn(name="user_id", referencedColumnName = "id"),
-			inverseJoinColumns = @JoinColumn(name="role_id", referencedColumnName = "id")
-			)
-	private Collection<Role> roles;
+	@Enumerated(EnumType.STRING)
+	@Column(name="role")
+	private Roles role;
 	
 	@ManyToMany
 	@JoinTable(
@@ -62,15 +59,29 @@ public class User
 	
 	// CONSTRUCTORS //
 	
+	public Roles getRole()
+	{
+		return role;
+	}
+
+
+
+	public void setRole(Roles role)
+	{
+		this.role = role;
+	}
+
+
+
 	public User(String firstName, String lastName, String email, String password,
-			Collection<com.openclassrooms.payMyBuddy.model.Role> roles)
+			Roles role)
 	{
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
-		this.roles = roles;
+		this.role = role;
 	}
 	
 	
@@ -104,21 +115,6 @@ public class User
 	{
 		this.email = email;
 	}
-
-
-
-	public Collection<Role> getRoles()
-	{
-		return roles;
-	}
-
-
-
-	public void setRoles(Collection<Role> roles)
-	{
-		this.roles = roles;
-	}
-
 
 
 	public void setId(int id)

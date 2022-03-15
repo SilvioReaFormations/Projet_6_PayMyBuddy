@@ -1,10 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Registration Form</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
 </head>
-<body>
 
+<body>
+	<div class="container">
+		<h1>User Login</h1>
+		<form th:action="@{/login}" method="post">
+		
+			<!-- ERROR MESSAGE 
+			avec l URL /login?error
+			-->
+			<div th:if="${param.error}">
+					<div class="alert alert-danger">Invalid Username or Password</div>
+			</div>
+				
+			<!-- LOGOUT MESSAGE 
+			avec l URL /login?logout
+			-->	
+			<div th:if="${param.logout}">
+					<div class="alert alert-info">You have been logged out</div>
+			</div>
+			
+			<!-- FORMULAIRE DE LOGIN -->
+			
+			<input type="text" class="form-control mb-4" id="username" name="username"
+			placeholder="Enter your Email" autofocus="autofocus">
+			
+			<input type="text" class="form-control mb-4" id="password" name="password"
+			placeholder="Enter yoour Password" autofocus="autofocus">
+		
+			<div>
+				<button type="submit" class="btn btn-success">Login</button>
+			</div>
+		</form>
+		
+		<!-- S'inscrire pour les NEW USERS -->
+		<a> New User ? </a>
+		<a href="/" th:href="@{/registration}"> Register here</a>
+	
+	</div>
+
+
+</body>
+
+</html>
 </body>
 </html>
