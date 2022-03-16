@@ -8,7 +8,58 @@
 	crossorigin="anonymous">
 </head>
 <body>
+	<div class="container">
+		<h1> DASHBOARD</h1>
+		
+		<hr>
+		
+		<!-- 
+				<div th:text="${ 'Bonjour ' + param.user.firstName}">Bonjour vous</div>
+
+		 -->
+		 
+		 <div> Votre solde actuel : </div>   <!-- Ajouter le solde ici -->
+		 
+		
+		<!-- CREDITER SON COMPTE -->
+		
+		<form th:action="@{/add}" th:object="${user}" method="POST">
+		
+		<input class="form-control" placeholder="Amount">
+		<div>
+			<button type="submit" class="btn btn-success">Credit my account</button>
+		</div>
+		</form>
+		
+		<hr>
+		
+		<!-- TRANSACTION -->
+		
+		<form action="">
+		
+		<input class="form-control" placeholder="Amount">
+		<input class="form-control" placeholder="To">
+		<div>
+			<button type="submit" class="btn btn-success">Transaction</button>
+		</div>
+		</form>
+		
+		<hr>
+		
+		
+		<!-- AJOUTER UN CONTACT-->
+		
+		<form action="">
+		
+		<input class="form-control" placeholder="Your contact's email">
+		<div>
+			<button type="submit" class="btn btn-success">Add a contact</button>
+		</div>
+		</form>
+	
+	</div>
 	
 
+	
 </body>
 </html>

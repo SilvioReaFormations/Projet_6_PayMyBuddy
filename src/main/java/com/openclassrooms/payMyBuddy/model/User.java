@@ -59,17 +59,6 @@ public class User
 	
 	// CONSTRUCTORS //
 	
-	public Roles getRole()
-	{
-		return role;
-	}
-
-
-
-	public void setRole(Roles role)
-	{
-		this.role = role;
-	}
 
 
 
@@ -86,9 +75,24 @@ public class User
 	
 	
 	
+	public User(int id, float account)
+	{
+		super();
+		this.id = id;
+		this.account = account;
+	}
+
+
+
 	public User()
 	{
 		
+	}
+	
+	public User(float account)
+	{
+		super();
+		this.account = account;
 	}
 
 	
@@ -97,7 +101,24 @@ public class User
 
 	
 
+	
 
+
+
+	public Roles getRole()
+	{
+		return role;
+	}
+
+
+
+	public void setRole(Roles role)
+	{
+		this.role = role;
+	}
+
+	
+	
 
 	public int getId()
 	{

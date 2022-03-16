@@ -3,6 +3,7 @@ package com.openclassrooms.payMyBuddy.service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -40,7 +41,27 @@ public class UserServiceImpl implements UserService
 				);
 		return userRepository.save(newUser);
 	}
+	
 
+	
+	
+	public User udpateAccount( UserDTO userDTO, float amount)
+	{
+		User newUser = new User (userDTO.getId(), userDTO.getAccount());
+		
+		newUser.setAccount( newUser.getAccount() + amount);
+		
+		return userRepository.save(newUser);
+		
+	}
+	
+	
+	
+
+	
+	
+	
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
 	{
@@ -64,6 +85,11 @@ public class UserServiceImpl implements UserService
 		return authorithies;
 		
 	}
+
+
+
+
+	
 	
 
 }

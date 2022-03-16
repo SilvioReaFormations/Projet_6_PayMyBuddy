@@ -6,12 +6,14 @@ public class UserDTO implements Serializable
 {
 	
 	private static final long serialVersionUID = 1L;
+	private int id;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String password;
+	private float account;
 	
-	
+
 	public UserDTO(String firstName, String lastName, String email, String password)
 	{
 		super();
@@ -21,12 +23,37 @@ public class UserDTO implements Serializable
 		this.password = password;
 	}
 	
-	
+
+
 	public UserDTO()
 	{
 		super();
 	}
 	
+	
+	
+	
+	public float getAccount()
+	{
+		return account;
+	}
+
+
+	public void setAccount(float account)
+	{
+		this.account = account;
+	}
+	
+	
+	public int getId()
+	{
+		return id;
+	}
+
+	public void setId(int id)
+	{
+		this.id = id;
+	}
 	
 	public String getFirstName()
 	{

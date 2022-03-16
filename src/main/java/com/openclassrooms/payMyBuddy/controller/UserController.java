@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,10 +24,20 @@ public class UserController
 	private UserService userService;
 	
 	
+	
+	@PostMapping("/registration")
+	public String registerUserAccount(@ModelAttribute("newUser") UserDTO userDTO)
+	{
+		userService.save(userDTO);
+		return "redirect:/registration?success";
+	}
+	
+	
+	
 	@GetMapping("/registration")
 	public String showCreateAccountForm(Model model)
 	{
-		model.addAttribute("newUser", new UserDTO());
+		//model.addAttribute("newUser", new UserDTO());
 		return "createAccountForm";
 	}
 	
@@ -36,15 +47,22 @@ public class UserController
 		return "login";
 	}
 	
-	@PostMapping("/registration")
-	public String registerUserAccount(UserDTO userDTO)
+	@GetMapping("/")
+	public String home()
 	{
-		userService.save(userDTO);
-		return "redirect:/registration?success";
+		return "index";
 	}
 	
-
 	
+	/*
+	@PostMapping("/add")
+	public String addAccount (int userId, float amount)
+	{
+		userService.udpateAccount(userId, amount);
+		return "index";
+	}
+
+	*/
 
 
 }
