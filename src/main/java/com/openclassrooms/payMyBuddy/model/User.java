@@ -41,7 +41,7 @@ public class User
 	
 	private String password;
 	
-	private float account;
+	private Float account;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name="role")
@@ -73,15 +73,6 @@ public class User
 		this.role = role;
 	}
 	
-	
-	
-	public User(int id, float account)
-	{
-		super();
-		this.id = id;
-		this.account = account;
-	}
-
 
 
 	public User()
@@ -89,21 +80,11 @@ public class User
 		
 	}
 	
-	public User(float account)
-	{
-		super();
-		this.account = account;
-	}
-
 	
 	
 	// GETTER / SETTER
 
 	
-
-	
-
-
 
 	public Roles getRole()
 	{
@@ -174,12 +155,12 @@ public class User
 		this.password = password;
 	}
 
-	public float getAccount()
+	public Float getAccount()
 	{
 		return account;
 	}
 
-	public void setAccount(float account)
+	public void setAccount(Float account)
 	{
 		this.account = account;
 	}

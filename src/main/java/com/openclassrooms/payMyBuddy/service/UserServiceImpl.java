@@ -7,8 +7,10 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,6 +32,15 @@ public class UserServiceImpl implements UserService
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
+	// METHODE PERMETANT DE RECUPERER LE USER QUI S'EST LOG AVEC SON MAIL ET SON MDP
+		public User findLogUser()
+		{
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			String logUserEmail = auth.getName();
+			User logUser = userRepository.findByEmail(logUserEmail);
+			return logUser;
+		}
+	
 	@Override
 	public User save(UserDTO userDTO)
 	{
@@ -43,19 +54,17 @@ public class UserServiceImpl implements UserService
 	}
 	
 
-	
+	/*
 	
 	public User udpateAccount( UserDTO userDTO, float amount)
 	{
 		User newUser = new User (userDTO.getId(), userDTO.getAccount());
-		
 		newUser.setAccount( newUser.getAccount() + amount);
-		
 		return userRepository.save(newUser);
 		
 	}
 	
-	
+	*/
 	
 
 	
@@ -85,6 +94,11 @@ public class UserServiceImpl implements UserService
 		return authorithies;
 		
 	}
+
+
+
+
+	
 
 
 

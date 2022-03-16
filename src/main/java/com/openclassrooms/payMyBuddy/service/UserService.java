@@ -7,8 +7,8 @@ import com.openclassrooms.payMyBuddy.repository.dto.UserDTO;
 
 public interface UserService extends UserDetailsService
 {
-	User save(UserDTO userDTO);
+	public User save(UserDTO userDTO);
+	public User findLogUser();
 	
-	// User udpateAccount(int userId, float amount);
 	
 }

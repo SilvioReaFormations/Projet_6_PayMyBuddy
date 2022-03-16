@@ -11,7 +11,7 @@ public class UserDTO implements Serializable
 	private String lastName;
 	private String email;
 	private String password;
-	private float account;
+	private Float account;
 	
 
 	public UserDTO(String firstName, String lastName, String email, String password)
@@ -33,13 +33,13 @@ public class UserDTO implements Serializable
 	
 	
 	
-	public float getAccount()
+	public Float getAccount()
 	{
 		return account;
 	}
 
 
-	public void setAccount(float account)
+	public void setAccount(Float account)
 	{
 		this.account = account;
 	}

@@ -13,21 +13,24 @@
 		
 		<hr>
 		
-		<!-- 
-				<div th:text="${ 'Bonjour ' + param.user.firstName}">Bonjour vous</div>
+		<!-- <div >Bonjour [[${logUser.getFirstName()}]]</div> -->	
 
-		 -->
-		 
-		 <div> Votre solde actuel : </div>   <!-- Ajouter le solde ici -->
+		<div >
+			<h2 th:text="${'Hello ' + logUser.getLastName()}">Bonjour</h2>
+		</div>
+
+		 <div> 
+			<h2 th:text="${'Your actual account: ' + logUser.getAccount() + ' €'}">Votre compte</h2>
+		 </div>   
 		 
 		
 		<!-- CREDITER SON COMPTE -->
 		
-		<form th:action="@{/add}" th:object="${user}" method="POST">
+		<form th:action="@{/creditAccount}"  method="POST">
 		
 		<input class="form-control" placeholder="Amount">
 		<div>
-			<button type="submit" class="btn btn-success">Credit my account</button>
+			<button type="submit" class="btn btn-success mt-2">Credit my account</button>
 		</div>
 		</form>
 		
@@ -40,7 +43,7 @@
 		<input class="form-control" placeholder="Amount">
 		<input class="form-control" placeholder="To">
 		<div>
-			<button type="submit" class="btn btn-success">Transaction</button>
+			<button type="submit" class="btn btn-success mt-2">Transaction</button>
 		</div>
 		</form>
 		
@@ -53,7 +56,7 @@
 		
 		<input class="form-control" placeholder="Your contact's email">
 		<div>
-			<button type="submit" class="btn btn-success">Add a contact</button>
+			<button type="submit" class="btn btn-success mt-2">Add a contact</button>
 		</div>
 		</form>
 	
