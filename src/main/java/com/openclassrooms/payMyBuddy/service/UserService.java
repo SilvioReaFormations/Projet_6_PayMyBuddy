@@ -9,6 +9,7 @@ public interface UserService extends UserDetailsService
 {
 	public User save(UserDTO userDTO);
 	public User findLogUser();
-	
+	public User udpateAccount(User userNewAccount, float amount);
+	public User addContact(User user, String email);
 	
 }

@@ -23,12 +23,33 @@
 			<h2 th:text="${'Your actual account: ' + logUser.getAccount() + ' €'}">Votre compte</h2>
 		 </div>   
 		 
+		 	
+		 	
+		 	<table class="table table-bordered table-striped">
+		 		<tr>
+		 			<th>Your friends</th>
+		  		</tr>
+		  		
+		  		<tr th:each="contacts : ${logUser.getContact()}">
+		  			<td th:text="${contacts.getLastName()} + ' ' + ${contacts.getFirstName()}">my contacts</td>
+		  		</tr>
+		  		
+		 	
+		 	</table>
+		 	
+		 	
+		 	<a th:text="${'Your actual friends: ' + logUser.getContact()}">Contact List</a>
+		 <div>
+		 	
+		 </div>
 		
 		<!-- CREDITER SON COMPTE -->
 		
 		<form th:action="@{/creditAccount}"  method="POST">
 		
-		<input class="form-control" placeholder="Amount">
+<!-- GRACE A L'ATTRIBUT "NAME", ON peut faire le lien avec le paramètre de la méthode invoqué via l'URL ci dessus -->		
+		
+		<input class="form-control" type="number" name="amount" placeholder="Amount">
 		<div>
 			<button type="submit" class="btn btn-success mt-2">Credit my account</button>
 		</div>
@@ -52,9 +73,9 @@
 		
 		<!-- AJOUTER UN CONTACT-->
 		
-		<form action="">
+		<form th:action="@{/addContact}" method="POST">
 		
-		<input class="form-control" placeholder="Your contact's email">
+		<input class="form-control" type="text" name="email" placeholder="Your contact's email">
 		<div>
 			<button type="submit" class="btn btn-success mt-2">Add a contact</button>
 		</div>

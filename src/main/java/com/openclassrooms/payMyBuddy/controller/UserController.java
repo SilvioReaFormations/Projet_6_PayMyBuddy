@@ -1,5 +1,8 @@
 package com.openclassrooms.payMyBuddy.controller;
 
+import java.util.List;
+import java.util.function.Consumer;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -35,12 +38,29 @@ public class UserController
 		return "redirect:/registration?success";
 	}
 	
+	@PostMapping("/creditAccount")
+	public String creditAccount (Model model, @RequestParam float amount)
+	{
+		userService.udpateAccount(userService.findLogUser(), amount);
+		model.addAttribute("logUser", userService.findLogUser());
+		return "redirect:/";
+	}
+
+	@PostMapping("/addContact")
+	public String addNewContact(Model model, @RequestParam String email)
+	{
+		userService.addContact(userService.findLogUser(), email);
+		model.addAttribute("logUser", userService.findLogUser());
+	
+		return "redirect:/";
+	}
+	
 	
 	
 	@GetMapping("/registration")
 	public String showCreateAccountForm(Model model)
 	{
-		//model.addAttribute("newUser", new UserDTO());
+		model.addAttribute("newUser", new UserDTO());
 		return "createAccountForm";
 	}
 	
@@ -60,16 +80,7 @@ public class UserController
 		return "index";
 	}
 	
+
 	
-	/*
-	@PostMapping("/add")
-	public String addAccount (int userId, float amount)
-	{
-		userService.udpateAccount(userId, amount);
-		return "index";
-	}
-
-	*/
-
 
 }

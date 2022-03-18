@@ -11,7 +11,6 @@ public class UserDTO implements Serializable
 	private String lastName;
 	private String email;
 	private String password;
-	private Float account;
 	
 
 	public UserDTO(String firstName, String lastName, String email, String password)
@@ -30,19 +29,7 @@ public class UserDTO implements Serializable
 		super();
 	}
 	
-	
-	
-	
-	public Float getAccount()
-	{
-		return account;
-	}
 
-
-	public void setAccount(Float account)
-	{
-		this.account = account;
-	}
 	
 	
 	public int getId()

@@ -54,19 +54,21 @@ public class UserServiceImpl implements UserService
 	}
 	
 
-	/*
 	
-	public User udpateAccount( UserDTO userDTO, float amount)
+	@Override
+	public User udpateAccount(User userNewAccount, float amount)
 	{
-		User newUser = new User (userDTO.getId(), userDTO.getAccount());
-		newUser.setAccount( newUser.getAccount() + amount);
-		return userRepository.save(newUser);
-		
+		userNewAccount.setAccount(userNewAccount.getAccount() + amount);
+		return userRepository.save(userNewAccount);
 	}
 	
-	*/
+	@Override
+	public User addContact(User user, String email)
+	{
+		user.getContact().add(userRepository.findByEmail(email));
+		return userRepository.save(user);
+	}
 	
-
 	
 	
 	
@@ -94,6 +96,12 @@ public class UserServiceImpl implements UserService
 		return authorithies;
 		
 	}
+
+	
+
+	
+
+	
 
 
 

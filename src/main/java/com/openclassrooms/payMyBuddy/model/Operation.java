@@ -1,5 +1,6 @@
 package com.openclassrooms.payMyBuddy.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,11 +25,11 @@ public class Operation
 	@Column(name = "description")
 	private String description;
 	
-	@ManyToOne
+	@ManyToOne(cascade= CascadeType.ALL)
 	@JoinColumn(name = "sender")
 	private User sender;
 	
-	@ManyToOne
+	@ManyToOne(cascade= CascadeType.ALL)
 	@JoinColumn(name = "receiver")
 	private User receiver;
 
