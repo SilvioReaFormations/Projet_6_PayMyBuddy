@@ -9,12 +9,10 @@
 </head>
 <body>
 	<div class="container">
-		<h1> DASHBOARD</h1>
+		<h1 class="text-center"> DASHBOARD</h1>
 		
 		<hr>
-		
-		<!-- <div >Bonjour [[${logUser.getFirstName()}]]</div> -->	
-
+	
 		<div >
 			<h2 th:text="${'Hello ' + logUser.getLastName()}">Bonjour</h2>
 		</div>
@@ -24,21 +22,22 @@
 		 </div>   
 		 
 		 	
-		 	
 		 	<table class="table table-bordered table-striped">
 		 		<tr>
-		 			<th>Your friends</th>
+		 			<th colspan="2">Your Contact</th>
+		 			<th >Email</th>
 		  		</tr>
 		  		
 		  		<tr th:each="contacts : ${logUser.getContact()}">
-		  			<td th:text="${contacts.getLastName()} + ' ' + ${contacts.getFirstName()}">my contacts</td>
+		  			<td th:text="${contacts.getLastName()}">my contacts</td>
+		  			<td th:text="${contacts.getFisrtName()}">my contacts</td>
+		  			<td th:text="${contacts.getEmail()}">my contacts</td>
 		  		</tr>
 		  		
 		 	
 		 	</table>
 		 	
 		 	
-		 	<a th:text="${'Your actual friends: ' + logUser.getContact()}">Contact List</a>
 		 <div>
 		 	
 		 </div>
@@ -59,10 +58,10 @@
 		
 		<!-- TRANSACTION -->
 		
-		<form action="">
+		<form action="#" th:action="@{/transaction}"  method="POST">
 		
-		<input class="form-control" placeholder="Amount">
-		<input class="form-control" placeholder="To">
+		<input class="form-control" placeholder="Amount" name="transactionAmount" type="number">
+		<input class="form-control" placeholder="To" name="email" type="text">
 		<div>
 			<button type="submit" class="btn btn-success mt-2">Transaction</button>
 		</div>

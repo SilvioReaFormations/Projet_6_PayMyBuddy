@@ -8,5 +8,5 @@ import com.openclassrooms.payMyBuddy.model.Operation;
 @Repository
 public interface OperationRepository extends JpaRepository<Operation, Integer>
 {
-
+	
 }

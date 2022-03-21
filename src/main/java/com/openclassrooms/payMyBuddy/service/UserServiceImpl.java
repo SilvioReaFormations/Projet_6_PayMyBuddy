@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService
 			return logUser;
 		}
 	
-	@Override
+	
 	public User save(UserDTO userDTO)
 	{
 		User newUser = new User(userDTO.getFirstName(), 
@@ -55,14 +55,14 @@ public class UserServiceImpl implements UserService
 	
 
 	
-	@Override
+	
 	public User udpateAccount(User userNewAccount, float amount)
 	{
 		userNewAccount.setAccount(userNewAccount.getAccount() + amount);
 		return userRepository.save(userNewAccount);
 	}
 	
-	@Override
+	
 	public User addContact(User user, String email)
 	{
 		user.getContact().add(userRepository.findByEmail(email));
