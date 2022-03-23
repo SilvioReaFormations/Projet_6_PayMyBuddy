@@ -1,5 +1,6 @@
 package com.openclassrooms.payMyBuddy.service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -16,6 +17,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.openclassrooms.payMyBuddy.exception.ContactException;
+import com.openclassrooms.payMyBuddy.exception.TransactionException;
 import com.openclassrooms.payMyBuddy.model.Roles;
 import com.openclassrooms.payMyBuddy.model.User;
 import com.openclassrooms.payMyBuddy.repository.UserRepository;
@@ -42,7 +45,7 @@ public class UserServiceImpl implements UserService
 		}
 	
 	
-	public User save(UserDTO userDTO)
+	public User save(UserDTO userDTO) throws SQLIntegrityConstraintViolationException
 	{
 		User newUser = new User(userDTO.getFirstName(), 
 				userDTO.getLastName(),
@@ -50,22 +53,43 @@ public class UserServiceImpl implements UserService
 				passwordEncoder.encode(userDTO.getPassword()),
 				Roles.USER
 				);
+		
 		return userRepository.save(newUser);
 	}
 	
 
 	
-	
-	public User udpateAccount(User userNewAccount, float amount)
+	public User udpateAccount(User userNewAccount, float amount) throws TransactionException
 	{
+		if(amount <=0)
+		{
+			throw new TransactionException("amount can't be <= 0");
+		}
 		userNewAccount.setAccount(userNewAccount.getAccount() + amount);
 		return userRepository.save(userNewAccount);
 	}
 	
 	
-	public User addContact(User user, String email)
+	public User addContact(User user, String email) throws ContactException
 	{
-		user.getContact().add(userRepository.findByEmail(email));
+		User newContact = userRepository.findByEmail(email);
+		
+		if ( user.getContact().contains(newContact) )
+		{
+			throw new ContactException("Contact already exist");
+		}
+		
+		if( user.equals(newContact) )
+		{
+			throw new ContactException("You can't add yourself :-)");
+		}
+		
+		if( newContact == null )
+		{
+			throw new ContactException("This user does't exist");
+		}
+		
+		user.getContact().add(newContact);
 		return userRepository.save(user);
 	}
 	

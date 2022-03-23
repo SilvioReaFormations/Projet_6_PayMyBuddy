@@ -39,12 +39,13 @@ public class Operation
 		super();
 	}
 
-	public Operation(float amount, User sender, User receiver)
+	public Operation(float amount, User sender, User receiver, String description)
 	{
 		super();
 		this.amount = amount;
 		this.sender = sender;
 		this.receiver = receiver;
+		this.description = description;
 	}
 
 	

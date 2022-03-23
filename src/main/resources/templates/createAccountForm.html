@@ -18,6 +18,10 @@
 			<a th:text="${error}"></a>
 		</div>
 		
+		<div th:if="${exception1 != null}">
+			<div class="alert alert-info mt-2" th:text="${exception1}"></div>
+		</div>
+		
 		<h1>CREATE ACCOUNT</h1>
 		
 		<hr>
