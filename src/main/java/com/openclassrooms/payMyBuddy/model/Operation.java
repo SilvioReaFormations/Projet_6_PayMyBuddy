@@ -10,6 +10,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Operation Entity
+ * @author Silvio
+ *
+ */
+
 @Entity
 @Table(name = "operation")
 public class Operation
@@ -20,7 +26,7 @@ public class Operation
 	private int id;
 	
 	@Column(name = "amount")
-	private float amount;
+	private double amount;
 	
 	@Column(name = "description")
 	private String description;
@@ -29,7 +35,7 @@ public class Operation
 	@JoinColumn(name = "sender")
 	private User sender;
 	
-	@ManyToOne(cascade= CascadeType.ALL)
+	@ManyToOne(cascade= CascadeType.ALL) 
 	@JoinColumn(name = "receiver")
 	private User receiver;
 
@@ -39,7 +45,7 @@ public class Operation
 		super();
 	}
 
-	public Operation(float amount, User sender, User receiver, String description)
+	public Operation(double amount, User sender, User receiver, String description)
 	{
 		super();
 		this.amount = amount;
@@ -65,12 +71,12 @@ public class Operation
 		this.id = id;
 	}
 
-	public float getAmount()
+	public double getAmount()
 	{
 		return amount;
 	}
 
-	public void setAmount(float amount)
+	public void setAmount(double amount)
 	{
 		this.amount = amount;
 	}

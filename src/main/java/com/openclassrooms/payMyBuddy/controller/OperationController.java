@@ -1,16 +1,26 @@
 package com.openclassrooms.payMyBuddy.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.openclassrooms.payMyBuddy.exception.TransactionException;
+import com.openclassrooms.payMyBuddy.model.Operation;
 import com.openclassrooms.payMyBuddy.model.User;
 import com.openclassrooms.payMyBuddy.repository.dto.OperationDTO;
 import com.openclassrooms.payMyBuddy.service.OperationService;
 import com.openclassrooms.payMyBuddy.service.UserService;
+
+
+/**
+ * OperationController class
+ * @author Silvio
+ *
+ */
 
 @Controller
 public class OperationController
@@ -25,21 +35,30 @@ public class OperationController
 	
 	
 	@PostMapping("/transaction")
-	public String sendAmountToContact(Model model, float transactionAmount,String email, String description) throws TransactionException
+	public String sendAmountToContact(Model model, double transactionAmount,String email, String description,
+			@RequestParam(name="page", defaultValue="0") int page,
+			@RequestParam(name="size", defaultValue="5") int size)
 	{
-		
-			model.addAttribute("logUser", userService.findLogUser());
+		model.addAttribute("logUser", userService.findLogUser());
+		Page<Operation> pageOperation = userService.findOperationByUser(page, size);
+		model.addAttribute("list", pageOperation.getContent() );
+		model.addAttribute("pages", new int[pageOperation.getTotalPages()]);
+		model.addAttribute("currentPage", page);
+			
 			try
 			{
-				operationService.transaction(transactionAmount, userService.findLogUser(), email, description);
+				Operation operation = operationService.transaction(transactionAmount, userService.findLogUser(), email, description);
+				model.addAttribute("transactionAmount", transactionAmount);
+				model.addAttribute("transactionReceiver", operation.getReceiver().getLastName() );
 			} 
 			
 			catch (TransactionException e)
 			{
 				String exception = e.getMessage();
 				model.addAttribute("exception1", exception);
+				return "index";
 			}
 	
-			return "index";
+			return "redirect:/?transactionSuccess";
 	}
 }

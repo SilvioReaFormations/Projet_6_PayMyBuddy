@@ -10,49 +10,92 @@
 </head>
 <body>
 	<div class="container">
-		<h1 class="text-center">DASHBOARD</h1>
+		<h1 class="text-center bg-success text-white">DASHBOARD</h1>
 
 		<hr>
 
 		<div th:if="${exception1 != null}">
 			<div class="alert alert-info mt-2" th:text="${exception1}"></div>
 		</div>
-		<!-- -
-		<div th:if="${param.errTransaction}">
-			<div class="alert alert-info mt-2" th:text="non-sufficient funds">insuffisant account</div>
+
+
+		<div th:if="${param.creditSuccess}">
+			<div class="alert alert-info mt-2">Account credited</div>
 		</div>
-		
-		 -->
+
+		<div th:if="${param.contactSuccess}">
+			<div class="alert alert-info mt-2">New Contact Added</div>
+		</div>
+
+		<div th:if="${param.transactionSuccess}">
+			<div class="alert alert-info mt-2">Transaction Success</div>
+		</div>
+
 
 
 		<div>
 			<h2 th:text="${'Hello ' + logUser.getLastName()}">Bonjour</h2>
 		</div>
 
+
+
+
+		<!-- 		<table class="table table-bordered table-striped"> -->
+		<!-- 			<tr> -->
+		<!-- 				<th colspan="2">Your Contact</th> -->
+		<!-- 				<th>Email</th> -->
+		<!-- 			</tr> -->
+
+		<!-- 			<tr th:each="contacts : ${logUser.getContact()}"> -->
+		<!-- 				<td th:text="${contacts.getLastName()}">my contacts</td> -->
+		<!-- 				<td th:text="${contacts.getFirstName()}">my contacts</td> -->
+		<!-- 				<td th:text="${contacts.getEmail()}">my contacts</td> -->
+		<!-- 			</tr> -->
+		<!-- 		</table> -->
+
 		<div>
-			<h2
-				th:text="${'Your actual account: ' + logUser.getAccount() + ' €'}">Votre
-				compte</h2>
+			<h2 class="text-success text-center">Your transaction history</h2>
+		</div>
+
+		<div>
+			<table class="table table-bordered table-striped">
+				<tr>
+					<th colspan="2">CONTACT</th>
+					<th>AMOUNT</th>
+					<th>DESCRIPTION</th>
+				</tr>
+
+				<tr th:each="operation : ${list}">
+					<td th:text="${operation.getReceiver().getFirstName()}">my
+						contacts</td>
+					<td th:text="${operation.getReceiver().getLastName()}">my
+						contacts</td>
+<!-- 				<td th:text="${operation.getAmount()}">my contacts</td> -->
+					<td th:text="${#numbers.formatDecimal(operation.getAmount(),0,2, 'POINT')}">my contacts</td>
+					<td th:text="${operation.getDescription()}">my contacts</td>
+				</tr>
+			</table>
+
+			<div>
+				<ul class="nav nav-pills">
+					<li th:each="page,status:${pages}"><a
+						th:class="${status.index == currentPage ? 'btn btn-info ms-1' : 'btn btn-outline-info ms-1'}"
+						th:text="${status.index}" th:href="@{/(page=${status.index})}"></a>
+					</li>
+				</ul>
+			</div>
+
 		</div>
 
 
-		<table class="table table-bordered table-striped">
-			<tr>
-				<th colspan="2">Your Contact</th>
-				<th>Email</th>
-			</tr>
+		<hr>
+		
+		<h2 class="text-success text-center">Credit your account</h2>
+		
 
-			<tr th:each="contacts : ${logUser.getContact()}">
-				<td th:text="${contacts.getLastName()}">my contacts</td>
-				<td th:text="${contacts.getFirstName()}">my contacts</td>
-				<td th:text="${contacts.getEmail()}">my contacts</td>
-			</tr>
-
-
-		</table>
-
-
-		<div></div>
+		<div class="text-success"
+			 th:text="${'Your actual account: ' + #numbers.formatDecimal(logUser.getAccount(),0,2, 'POINT')  + ' €'}"> 
+		</div>
 
 		<!-- CREDITER SON COMPTE -->
 
@@ -60,7 +103,7 @@
 
 			<!-- GRACE A L'ATTRIBUT "NAME", ON peut faire le lien avec le paramètre de la méthode invoqué via l'URL ci dessus -->
 
-			<input class="form-control" type="number" name="amount"
+			<input class="form-control" type="text" name="amount"
 				placeholder="Amount">
 			<div>
 				<button type="submit" class="btn btn-success mt-2">Credit
@@ -72,19 +115,22 @@
 
 		<!-- TRANSACTION -->
 
-		<form action="#" th:action="@{/transaction}" method="POST">
+		<h2 class="text-success text-center">Transaction</h2>
+
+		<form th:action="@{/transaction}" method="POST">
 
 			<input class="form-control" placeholder="Amount"
-				name="transactionAmount" type="number"> 
-			<input
+				name="transactionAmount" type="text"> <input
 				class="form-control" placeholder="Description" name="description"
 				type="text">
-				
+
 			<!-- 		<input class="form-control" placeholder="To" name="email" type="text"> -->
 
-			<select class="form-select" name="email" aria-label="Default select example">
-  				<option value="0" >Select Contact</option>
-  				<option th:each="c : ${logUser.getContact()}"th:value="${c.getEmail()}" th:text="${c.getEmail()}"></option>
+			<select class="form-select mb-2" name="email"
+				aria-label="Default select example">
+				<option  value="0">Select Contact</option>
+				<option class="" th:each="c : ${logUser.getContact()}"
+					th:value="${c.getEmail()}" th:text="${c.getEmail()}"></option>
 
 			</select>
 
@@ -98,6 +144,8 @@
 
 
 		<!-- AJOUTER UN CONTACT-->
+		
+		<h2 class="text-success text-center">Add a contact</h2>
 
 		<form th:action="@{/addContact}" method="POST">
 
@@ -108,7 +156,7 @@
 					contact</button>
 			</div>
 		</form>
-		
+
 		<a href="/login" th:ref="@{/login}">Login Page</a>
 
 	</div>

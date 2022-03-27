@@ -1,30 +1,26 @@
-package com.openclassrooms.payMyBuddy;
+package com.openclassrooms.payMyBuddy.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.openclassrooms.payMyBuddy.model.Roles;
 import com.openclassrooms.payMyBuddy.model.User;
 import com.openclassrooms.payMyBuddy.repository.UserRepository;
-import com.openclassrooms.payMyBuddy.service.OperationService;
-import com.openclassrooms.payMyBuddy.service.UserService;
-import com.openclassrooms.payMyBuddy.service.UserServiceImpl;
 
 @SpringBootTest
-class Projet6PayMyBuddyApplicationTests {
-
+@ExtendWith(MockitoExtension.class)
+public class UserServiceTest
+{
+	
 	@InjectMocks
 	UserServiceImpl userService;
 	
@@ -36,22 +32,24 @@ class Projet6PayMyBuddyApplicationTests {
 	User contactTest = new User ("TESTCONTACT", "TestContact", "emailTestContact", "passwordTestContact", Roles.USER);
 	
 	
+
 	@Test
-	void contextLoads() {
-	}
-	
-	
-	@Test
-	void methodsTest() throws Exception
+	void addAmountToAccountTest() throws Exception
 	{
-		
-		when(userRepo.findByEmail("emailTestContact")).thenReturn(contactTest);
-		
-		User test = userRepo.findByEmail("emailTestContact");
-		
-		assertEquals(test.getEmail(), "emailTestContact");
+		when(userRepo.save(any())).thenReturn(usertest);
+		userService.udpateAccount(usertest, (double) 10);
+		assertEquals(10, usertest.getAccount());
 	}
-
 	
-
+	
+	@Test
+	void addContactTest() throws Exception
+	{
+		when(userRepo.findByEmail("emailTestContact")).thenReturn(contactTest);
+		when(userRepo.save(any())).thenReturn(usertest);
+		userService.addContact(usertest, contactTest.getEmail());
+		assertTrue(usertest.getContact().contains(contactTest));
+	}
+	
+	
 }

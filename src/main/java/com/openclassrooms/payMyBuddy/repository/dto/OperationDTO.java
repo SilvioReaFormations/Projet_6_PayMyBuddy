@@ -9,17 +9,24 @@ import javax.persistence.ManyToOne;
 
 import com.openclassrooms.payMyBuddy.model.User;
 
+/**
+ * Data Transfert Object Class for Operation
+ * @author Silvio
+ *
+ */
+
+
 public class OperationDTO implements Serializable
 {
 
 	private static final long serialVersionUID = 1L;
-	private float amount;
+	private double amount;
 	private String description;
 	private User sender;
 	private User receiver;
 	
 	
-	public OperationDTO(float amount, User sender, User receiver)
+	public OperationDTO(double amount, User sender, User receiver)
 	{
 		super();
 		this.amount = amount;
@@ -37,11 +44,11 @@ public class OperationDTO implements Serializable
 	
 	
 	
-	public float getAmount()
+	public double getAmount()
 	{
 		return amount;
 	}
-	public void setAmount(float amount)
+	public void setAmount(double amount)
 	{
 		this.amount = amount;
 	}

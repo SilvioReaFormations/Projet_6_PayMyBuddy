@@ -2,6 +2,12 @@ package com.openclassrooms.payMyBuddy.repository.dto;
 
 import java.io.Serializable;
 
+/**
+ * Data Transfert Object Class for User
+ * @author Silvio
+ *
+ */
+
 public class UserDTO implements Serializable
 {
 	

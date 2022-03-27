@@ -2,6 +2,11 @@ package com.openclassrooms.payMyBuddy.exception;
 
 public class TransactionException extends Exception
 {
+	
+	/**
+	 * Exception class related to transaction Exception
+	 * @param message
+	 */
 
 	public TransactionException(String message)
 	{

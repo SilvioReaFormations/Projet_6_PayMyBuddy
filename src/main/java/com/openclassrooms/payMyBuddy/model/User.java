@@ -19,7 +19,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-
+/**
+ * User entity
+ * @author Silvio
+ *
+ */
 
 @Entity
 @Table(name = "user")
@@ -41,7 +45,7 @@ public class User
 	
 	private String password;
 	
-	private float account;
+	private double account;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name="role")
@@ -55,12 +59,7 @@ public class User
 	List <User> contact = new ArrayList<>();
 
 	
-	
-	
 	// CONSTRUCTORS //
-	
-
-
 
 	public User(String firstName, String lastName, String email, String password,
 			Roles role)
@@ -73,15 +72,12 @@ public class User
 		this.role = role;
 	}
 	
-
-
 	public User()
 	{
 		
 	}
 	
-	
-	
+
 	// GETTER / SETTER
 
 	
@@ -155,12 +151,12 @@ public class User
 		this.password = password;
 	}
 
-	public float getAccount()
+	public double getAccount()
 	{
 		return account;
 	}
 
-	public void setAccount(float account)
+	public void setAccount(double account)
 	{
 		this.account = account;
 	}

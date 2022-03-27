@@ -7,10 +7,22 @@ import org.springframework.stereotype.Repository;
 
 import com.openclassrooms.payMyBuddy.model.User;
 
+/**
+ * Repository interface which extends JpaRepository in order to use CRUD methods
+ * @author Silvio
+ *
+ */
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>
 {
-	// IA de SPRING SECURITY defini elle meme le query avec le nom de la méthode
+	
+	/**
+	 * native SQL request to find a user with his email.
+	 * @param email
+	 * @return
+	 */
+	
 	@Query(value="SELECT * FROM user WHERE email=:email", nativeQuery=true)
 	User findByEmail(@Param("email") String email);
 	
