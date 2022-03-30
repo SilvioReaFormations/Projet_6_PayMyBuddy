@@ -5,6 +5,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,10 +43,13 @@ public class UserController
 			userService.saveNewUser(userDTO);
 		} 
 		
-		catch (SQLIntegrityConstraintViolationException e)
+		catch (DataIntegrityViolationException e)
 		{
-			String exception = e.getMessage();
+			
+			String exception = "Email déja utilisé";
 			model.addAttribute("exception1", exception);
+			model.addAttribute("newUser", new UserDTO());
+			return "createAccountForm";
 		}
 	
 		return "redirect:/registration?success";
@@ -54,7 +58,7 @@ public class UserController
 	
 	
 	@PostMapping("/creditAccount")
-	public String creditAccount (Model model, @RequestParam double amount,
+	public String creditAccount (Model model, @RequestParam(defaultValue = "0") double amount,
 			@RequestParam(name="page", defaultValue="0") int page,
 			@RequestParam(name="size", defaultValue="5") int size)
 	{

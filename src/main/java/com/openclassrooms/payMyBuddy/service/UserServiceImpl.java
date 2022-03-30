@@ -40,7 +40,6 @@ public class UserServiceImpl implements UserService
 {
 	@Autowired
 	private UserRepository userRepository;
-	
 	@Autowired
 	private OperationRepository operationRepository;
 
@@ -59,7 +58,7 @@ public class UserServiceImpl implements UserService
 		
 		
 	
-	public User saveNewUser(UserDTO userDTO) throws SQLIntegrityConstraintViolationException
+	public User saveNewUser(UserDTO userDTO)  
 	{
 		User newUser = new User(userDTO.getFirstName(), 
 				userDTO.getLastName(),
@@ -68,7 +67,9 @@ public class UserServiceImpl implements UserService
 				Roles.USER
 				);
 		
-		return userRepository.save(newUser);
+		userRepository.save(newUser);
+		
+		return newUser;
 	}
 	
 
@@ -145,14 +146,11 @@ public class UserServiceImpl implements UserService
 		if (user == null)
 		{
 			throw new UsernameNotFoundException("Invalid username or invalid Password");
-		}
-// On a besoin de la classe User de Spring security et non celle de l'Entité donc il faut 
-//	lui indiquer que c'est celle la qu'on veut en indiquant le lien complet avec le package 
+		} 
 		return new org.springframework.security.core.userdetails.User
 				(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRole()));
 	}
 	
-// ? pour dire que la collection correspond à toutes les classes filles de GrantedAuthority
 	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Roles role)
 	{
 		List<SimpleGrantedAuthority> authorithies = new ArrayList<>();

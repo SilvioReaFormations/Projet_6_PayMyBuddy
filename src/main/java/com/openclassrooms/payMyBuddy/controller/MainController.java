@@ -22,9 +22,7 @@ public class MainController
 {
 	@Autowired
 	UserService userService;
-	
-	
-	
+
 	
 	@GetMapping("/registration")
 	public String showCreateAccountForm(Model model)
