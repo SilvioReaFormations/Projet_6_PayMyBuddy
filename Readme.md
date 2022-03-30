@@ -31,7 +31,7 @@ Utilisation de MySQL pour stocker les données
 Utilisation de Thymeleaf et Bootstrap pour la partie Front
 Réalisation de tests unitaires et d’intégration
 Le projet poursuit les bonnes pratiques de développement, avec l'isolation et l'indépendance des tests, la séparation des interfaces, l'injection des dépendances, ou encore l'utilisation du Data Transfert Object Pattern.
-Des données sont déjà présentes dans le Script SQL de base de données. Ce dernier est divisé en un fichier de STRUCTURE et un fichier de DATA. Ces 2 fichiers sont disponibles dans le fichier RESOURCES
+Des données sont déjà présentes dans le Script SQL de base de données. Ce dernier est divisé en un fichier de STRUCTURE et un fichier de DATA. Ces 2 fichiers sont disponibles dans le fichier DOCS à la racine du projet
 
 ### Lancement du projet
 
@@ -44,4 +44,9 @@ Vous pouvez créer votre Utilisateur via le formulaire d’enregistrement, puis 
 
 # Diagramme de classe
 
-![Diagramme de classe!](./docs/diagram.png "Diagram")
+![Diagramme de classe!](./docs/diagramUML.png "Diagram")
+
+
+# Diagramme SQL
+
+![Diagramme SQL!](./docs/SQL_Schema.png "Diagram")
