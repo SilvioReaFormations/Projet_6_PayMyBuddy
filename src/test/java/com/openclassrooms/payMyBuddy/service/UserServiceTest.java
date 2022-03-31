@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.openclassrooms.payMyBuddy.exception.ContactException;
 import com.openclassrooms.payMyBuddy.exception.TransactionException;
 import com.openclassrooms.payMyBuddy.model.Operation;
 import com.openclassrooms.payMyBuddy.model.Roles;
@@ -42,6 +44,8 @@ public class UserServiceTest
 	@Mock
 	OperationRepository opeRepo;
 	
+	@Mock
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	User usertest= new User ("TEST", "Test", "emailTest", "passwordTest", Roles.USER);
 	User contactTest = new User ("TESTCONTACT", "TestContact", "emailTestContact", "passwordTestContact", Roles.USER);
@@ -49,11 +53,28 @@ public class UserServiceTest
 	
 	
 	@Test
-	public void addAmountToAccountTest() throws Exception
+	void addAmountToAccountTest() throws Exception
+	{
+
+		userService.udpateAccount(usertest, 10.0);
+		assertEquals(10.0, usertest.getAccount());
+	}
+	
+	
+	@Test
+	public void addAmountToAccountNegativeExceptionTest() throws Exception
 	{
 		
 		assertThrows(TransactionException.class, () -> {
 			userService.udpateAccount(usertest, (double) -1);
+		});
+	}
+	
+	@Test
+	public void addAmountToAccountNullExceptionTest() throws Exception
+	{
+		assertThrows(TransactionException.class, () -> {
+			userService.udpateAccount(usertest, 0.0);
 		});
 	}
 	
@@ -66,17 +87,46 @@ public class UserServiceTest
 		assertTrue(usertest.getContact().contains(contactTest));
 	}
 
+	@Test
+	public void addContactExceptionTestContactIsUser() throws Exception
+	{
+			when(userRepo.findByEmail("emailTest")).thenReturn(usertest);
+			
+			assertThrows(ContactException.class, () -> {
+			userService.addContact(usertest, "emailTest");
+		});
+	}
 
+	@Test
+	public void addContactExceptionTestContactAlreadyInList() throws Exception
+	{
+			when(userRepo.findByEmail("emailContactTest")).thenReturn(contactTest);
+			
+			usertest.getContact().add(contactTest);
+			
+			assertThrows(ContactException.class, () -> {
+			userService.addContact(usertest, "emailContactTest");
+		});
+	}
+	
+	@Test
+	public void addContactExceptionTestNullContact() throws Exception
+	{
+			assertThrows(ContactException.class, () -> {
+			userService.addContact(usertest, null);
+		});
+	}
 	
 	
 	@Test
-	public void saveNewUserTest() throws SQLIntegrityConstraintViolationException
+	public void saveNewUserTest()
 	{
+		when(passwordEncoder.encode("passwordTest")).thenReturn("passwordTest");
+		
 		UserDTO userDTOTest = new UserDTO("TEST", "Test", "emailTest", "passwordTest");
+		User user = userService.saveNewUser(userDTOTest);
 		
-		String testUserMail = userService.saveNewUser(userDTOTest).getEmail();
-		
-		assertEquals(testUserMail, "emailTest");
+		assertTrue(user.getEmail().equals("emailTest"));
 	}
 	
 	

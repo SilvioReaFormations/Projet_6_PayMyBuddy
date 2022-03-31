@@ -1,10 +1,8 @@
 package com.openclassrooms.payMyBuddy.service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -61,11 +59,11 @@ public class UserServiceImpl implements UserService
 	public User saveNewUser(UserDTO userDTO)  
 	{
 		User newUser = new User(userDTO.getFirstName(), 
-				userDTO.getLastName(),
-				userDTO.getEmail(), 
-				passwordEncoder.encode(userDTO.getPassword()),
-				Roles.USER
-				);
+								userDTO.getLastName(),
+								userDTO.getEmail(), 
+								passwordEncoder.encode(userDTO.getPassword()),
+								Roles.USER
+								);
 		
 		userRepository.save(newUser);
 		

@@ -2,6 +2,7 @@ package com.openclassrooms.payMyBuddy.service;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -12,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.openclassrooms.payMyBuddy.exception.TransactionException;
 import com.openclassrooms.payMyBuddy.model.Operation;
 import com.openclassrooms.payMyBuddy.model.Roles;
 import com.openclassrooms.payMyBuddy.model.User;
@@ -48,9 +50,38 @@ public class OperationServiceTest
 		
 		assertEquals(10, usertest.getAccount());
 		assertEquals(9.5, contactTest.getAccount());
-		
-//		assertTrue(usertest.getAccount() == 10);
-//		assertTrue(contactTest.getAccount() == 9.5);
 	}
 	
+	@Test
+	void sendMoneyToContactNegativeAmountExceptionTest() throws Exception
+	{
+		assertThrows(TransactionException.class, () -> {
+			operationService.transaction(-1.0, usertest, "emailTestContact", "Description Test");
+		});
+	}
+	
+	@Test
+	void sendMoneyToContactNullAmountExceptionTest() throws Exception
+	{
+		assertThrows(TransactionException.class, () -> {
+			operationService.transaction((double) 0, usertest, "emailTestContact", "Description Test");
+		});
+	}
+	
+	@Test
+	void sendMoneyToContactNonSufficentFundsExceptionTest() throws Exception
+	{
+		usertest.setAccount(0.0);
+		assertThrows(TransactionException.class, () -> {
+			operationService.transaction((double) 5, usertest, "emailTestContact", "Description Test");
+		});
+	}
+	
+	@Test
+	void sendMoneyToInvalidContactExceptionTest() throws Exception
+	{
+		assertThrows(TransactionException.class, () -> {
+			operationService.transaction((double) 5, usertest, "invalidEmailContact", "Description Test");
+		});
+	}
 }

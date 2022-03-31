@@ -35,10 +35,11 @@ public class OperationServiceImpl implements OperationService
 	public Operation transaction(Double amount, User sender, String email, String description) throws TransactionException
 
 	{
-			if (amount <=0)
+			if (amount <=0 || amount.equals(null))
 			{
 				throw new TransactionException("Please enter a valid amount");
 			}
+			
 			
 			if (sender.getAccount() < amount)
 			{

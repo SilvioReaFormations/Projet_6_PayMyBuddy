@@ -26,7 +26,7 @@ public class Operation
 	private int id;
 	
 	@Column(name = "amount")
-	private double amount;
+	private Double amount;
 	
 	@Column(name = "description")
 	private String description;
@@ -45,7 +45,7 @@ public class Operation
 		super();
 	}
 
-	public Operation(double amount, User sender, User receiver, String description)
+	public Operation(Double amount, User sender, User receiver, String description)
 	{
 		super();
 		this.amount = amount;
@@ -71,12 +71,12 @@ public class Operation
 		this.id = id;
 	}
 
-	public double getAmount()
+	public Double getAmount()
 	{
 		return amount;
 	}
 
-	public void setAmount(double amount)
+	public void setAmount(Double amount)
 	{
 		this.amount = amount;
 	}

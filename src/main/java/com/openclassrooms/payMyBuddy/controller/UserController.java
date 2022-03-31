@@ -46,7 +46,7 @@ public class UserController
 		catch (DataIntegrityViolationException e)
 		{
 			
-			String exception = "Email déja utilisé";
+			String exception = "Email already use";
 			model.addAttribute("exception1", exception);
 			model.addAttribute("newUser", new UserDTO());
 			return "createAccountForm";
@@ -86,7 +86,7 @@ public class UserController
 	
 
 	@PostMapping("/addContact")
-	public String addNewContact(Model model, @RequestParam String email,
+	public String addNewContact(Model model, String email,
 			@RequestParam(name="page", defaultValue="0") int page,
 			@RequestParam(name="size", defaultValue="5") int size)
 	{

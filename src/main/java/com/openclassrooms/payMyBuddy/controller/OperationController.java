@@ -35,7 +35,7 @@ public class OperationController
 	
 	
 	@PostMapping("/transaction")
-	public String sendAmountToContact(Model model, double transactionAmount,String email, String description,
+	public String sendAmountToContact(Model model, @RequestParam(defaultValue = "0") double transactionAmount,String email, String description,
 			@RequestParam(name="page", defaultValue="0") int page,
 			@RequestParam(name="size", defaultValue="5") int size)
 	{
