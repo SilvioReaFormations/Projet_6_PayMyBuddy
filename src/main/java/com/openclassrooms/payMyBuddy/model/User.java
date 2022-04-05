@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -57,9 +58,36 @@ public class User
 			joinColumns = @JoinColumn(name = "user_id"),
 			inverseJoinColumns = @JoinColumn(name = "contactUser_id"))
 	List <User> contact = new ArrayList<>();
+	
+	
+	
+	
+	@OneToMany(
+			cascade= CascadeType.ALL,
+			orphanRemoval=true,
+			fetch = FetchType.EAGER
+			)
+	@JoinColumn(name = "user_id")
+	List<Credit> creditList = new ArrayList<>();
+	
+	
+
+		public List<Credit> getCreditList()
+	{
+		return creditList;
+	}
+
+	public void setCreditList(List<Credit> creditList)
+	{
+		this.creditList = creditList;
+	}
+	
+	
 
 	
 	// CONSTRUCTORS //
+
+
 
 	public User(String firstName, String lastName, String email, String password,
 			Roles role)
