@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.payMyBuddy.exception.TransactionException;
+import com.openclassrooms.payMyBuddy.model.Charges;
 import com.openclassrooms.payMyBuddy.model.Operation;
 import com.openclassrooms.payMyBuddy.model.User;
+import com.openclassrooms.payMyBuddy.repository.ChargesRepository;
 import com.openclassrooms.payMyBuddy.repository.OperationRepository;
 import com.openclassrooms.payMyBuddy.repository.UserRepository;
 import com.openclassrooms.payMyBuddy.repository.dto.OperationDTO;
@@ -26,6 +28,11 @@ public class OperationServiceImpl implements OperationService
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private ChargesRepository chargesRepository;
+	
+	
 
 	
 	/**
@@ -35,6 +42,9 @@ public class OperationServiceImpl implements OperationService
 	public Operation transaction(Double amount, User sender, String email, String description) throws TransactionException
 
 	{
+		Charges charges = new Charges();
+		
+		
 			if (amount <=0 || amount.equals(null))
 			{
 				throw new TransactionException("Please enter a valid amount");
@@ -58,17 +68,22 @@ public class OperationServiceImpl implements OperationService
 			OperationDTO opDTO = new OperationDTO();
 			opDTO.setSender(sender);
 			opDTO.setReceiver(receiver);
-			opDTO.setAmount(amount*0.95);
+			opDTO.setAmount(amount*charges.getCHARGES());
 			opDTO.setDescription(description);
 
 			Operation operation = new Operation(opDTO.getAmount(), opDTO.getSender(), opDTO.getReceiver(), opDTO.getDescription());
 
 			sender.setAccount(sender.getAccount() - amount);
-			receiver.setAccount(receiver.getAccount() + amount*0.95);
+			receiver.setAccount(receiver.getAccount() + amount*charges.getCHARGES());
 
 			userRepository.save(sender);
 			userRepository.save(receiver);
 			operationRepository.save(operation);
+			
+			
+			charges.setOperation(operation);
+			charges.setChargesAmount(amount - (amount*charges.getCHARGES()) );
+			chargesRepository.save(charges);
 			
 			return operation;
 		

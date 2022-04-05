@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.openclassrooms.payMyBuddy.exception.ContactException;
 import com.openclassrooms.payMyBuddy.exception.TransactionException;
+import com.openclassrooms.payMyBuddy.model.Credit;
 import com.openclassrooms.payMyBuddy.model.Operation;
 import com.openclassrooms.payMyBuddy.model.User;
 import com.openclassrooms.payMyBuddy.repository.dto.UserDTO;
@@ -20,5 +21,6 @@ public interface UserService extends UserDetailsService
 	public User addContact(User user, String email) throws ContactException;
 	
 	public Page<Operation> findOperationByUser(int page, int size);
+	public Page<Credit> findCreditByUser(int page, int size);
 	
 }

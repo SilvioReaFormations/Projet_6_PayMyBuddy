@@ -20,9 +20,11 @@ import org.springframework.stereotype.Service;
 
 import com.openclassrooms.payMyBuddy.exception.ContactException;
 import com.openclassrooms.payMyBuddy.exception.TransactionException;
+import com.openclassrooms.payMyBuddy.model.Credit;
 import com.openclassrooms.payMyBuddy.model.Operation;
 import com.openclassrooms.payMyBuddy.model.Roles;
 import com.openclassrooms.payMyBuddy.model.User;
+import com.openclassrooms.payMyBuddy.repository.CreditRepository;
 import com.openclassrooms.payMyBuddy.repository.OperationRepository;
 import com.openclassrooms.payMyBuddy.repository.UserRepository;
 import com.openclassrooms.payMyBuddy.repository.dto.UserDTO;
@@ -40,11 +42,24 @@ public class UserServiceImpl implements UserService
 	private UserRepository userRepository;
 	@Autowired
 	private OperationRepository operationRepository;
+	@Autowired
+	private CreditRepository creditRepository;
 
 // Lazy pour une injection parraisseuse afin d'éviter la boucle d'injection.
 	@Lazy
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	
+	
+
+	public Page<Credit> findCreditByUser(int page, int size)
+	{
+		Pageable pageable = PageRequest.of(page, size);
+		User user = findLogUser();
+		return creditRepository.findCreditByUser(user.getEmail(), pageable);
+	}
+	
+	
 	
 		
 	public Page<Operation> findOperationByUser(int page, int size)
@@ -54,6 +69,8 @@ public class UserServiceImpl implements UserService
 			return operationRepository.findAllByUser(user.getEmail(), pageable);
 		}
 		
+	
+	
 		
 	
 	public User saveNewUser(UserDTO userDTO)  
@@ -85,10 +102,15 @@ public class UserServiceImpl implements UserService
 			throw new TransactionException("Please choose an amount");
 		}
 		
+		Credit credit = new Credit(amount);
+		creditRepository.save(credit);
+		userNewAccount.getCreditList().add(credit);	
+		
 		userNewAccount.setAccount(userNewAccount.getAccount() + amount);
 		userRepository.save(userNewAccount);
 		return userNewAccount;
 	}
+	
 	
 	
 	public User addContact(User user, String email) throws ContactException

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.openclassrooms.payMyBuddy.model.Charges;
 import com.openclassrooms.payMyBuddy.model.User;
 
 /**
@@ -25,5 +26,6 @@ public interface UserRepository extends JpaRepository<User, Integer>
 	
 	@Query(value="SELECT * FROM user WHERE email=:email", nativeQuery=true)
 	User findByEmail(@Param("email") String email);
+
 	
 }
