@@ -70,15 +70,16 @@
 						contacts</td>
 					<td th:text="${operation.getReceiver().getLastName()}">my
 						contacts</td>
-<!-- 				<td th:text="${operation.getAmount()}">my contacts</td> -->
-					<td th:text="${#numbers.formatDecimal(operation.getAmount(),0,2, 'POINT')}">my contacts</td>
+					<td
+						th:text="${#numbers.formatDecimal(operation.getAmount(),0,2, 'POINT')}">my
+						contacts</td>
 					<td th:text="${operation.getDescription()}">my contacts</td>
 				</tr>
 			</table>
 
 			<div>
 				<ul class="nav nav-pills">
-					<li th:each="page,status:${pages}"><a
+					<li th:each="pageOfTransactions,status:${pages}"><a
 						th:class="${status.index == currentPage ? 'btn btn-info ms-1' : 'btn btn-outline-info ms-1'}"
 						th:text="${status.index}" th:href="@{/(page=${status.index})}"></a>
 					</li>
@@ -87,14 +88,43 @@
 
 		</div>
 
+		<div>
+			<table class="table table-bordered table-striped">
+				<tr>
+					<th>AMOUNT</th>
+				</tr>
+
+				<tr th:each="credit : ${Creditlist}">
+					<td
+						th:text="${#numbers.formatDecimal(credit.getAmount(),0,2, 'POINT')}">
+						CREDITS</td>
+				</tr>
+			</table>
+
+			<div>
+				<ul class="nav nav-pills">
+					<li th:each="pageOfCredits,status:${Creditpages}"><a
+						th:class="${status.index == CreditcurrentPage ? 'btn btn-info ms-1' : 'btn btn-outline-info ms-1'}"
+						th:text="${status.index}" th:href="@{/(pageCredit=${status.index})}"></a>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+
+
+		<div></div>
+
+
+
 
 		<hr>
-		
+
 		<h2 class="text-success text-center">Credit your account</h2>
-		
+
 
 		<div class="text-success"
-			 th:text="${'Your actual account: ' + #numbers.formatDecimal(logUser.getAccount(),0,2, 'POINT')  + ' €'}"> 
+			th:text="${'Your actual account: ' + #numbers.formatDecimal(logUser.getAccount(),0,2, 'POINT')  + ' €'}">
 		</div>
 
 		<!-- CREDITER SON COMPTE -->
@@ -128,7 +158,7 @@
 
 			<select class="form-select mb-2" name="email"
 				aria-label="Default select example">
-				<option  value="0">Select Contact</option>
+				<option value="0">Select Contact</option>
 				<option class="" th:each="c : ${logUser.getContact()}"
 					th:value="${c.getEmail()}" th:text="${c.getEmail()}"></option>
 
@@ -144,7 +174,7 @@
 
 
 		<!-- AJOUTER UN CONTACT-->
-		
+
 		<h2 class="text-success text-center">Add a contact</h2>
 
 		<form th:action="@{/addContact}" method="POST">
