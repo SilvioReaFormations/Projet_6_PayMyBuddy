@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.openclassrooms.payMyBuddy.exception.TransactionException;
+import com.openclassrooms.payMyBuddy.model.Credit;
 import com.openclassrooms.payMyBuddy.model.Operation;
 import com.openclassrooms.payMyBuddy.model.User;
 import com.openclassrooms.payMyBuddy.repository.dto.OperationDTO;
@@ -37,13 +38,21 @@ public class OperationController
 	@PostMapping("/transaction")
 	public String sendAmountToContact(Model model, @RequestParam(defaultValue = "0") double transactionAmount,String email, String description,
 			@RequestParam(name="page", defaultValue="0") int page,
-			@RequestParam(name="size", defaultValue="5") int size)
+			@RequestParam(name="size", defaultValue="5") int size,
+			@RequestParam(name="pageCredit", defaultValue="0") int pageC,
+			@RequestParam(name="sizeCredit", defaultValue="5") int sizeC)
 	{
 		model.addAttribute("logUser", userService.findLogUser());
 		Page<Operation> pageOperation = userService.findOperationByUser(page, size);
 		model.addAttribute("list", pageOperation.getContent() );
 		model.addAttribute("pages", new int[pageOperation.getTotalPages()]);
 		model.addAttribute("currentPage", page);
+		
+		Page<Credit> pageCredit = userService.findCreditByUser(pageC, sizeC);
+		model.addAttribute("Creditlist", pageCredit.getContent() );
+		model.addAttribute("Creditpages", new int[pageCredit.getTotalPages()]);
+		model.addAttribute("CreditCurrentPage", pageC);
+		
 			
 			try
 			{
